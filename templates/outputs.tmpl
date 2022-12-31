@@ -1,9 +1,4 @@
-{{ define "output" }}
-output "{{ .Name }}" {
-  value       = local.az.{{ .Name }}
-  description = "{{ replace .Name "_" " " | title }}"
-}
-{{ end }}
+
 
 {{ define "outputs" }}
 output "unique-seed" {
@@ -11,11 +6,12 @@ output "unique-seed" {
 }
 
 output "validation" {
-  value = local.validation
+  value = {for k,v in local.validation: k => v if v != null}
 }
 
-{{- range . }}
-    {{- template  "output" .}}
-{{- end }}
+output "outputs" {
+  value       = {for k,v in local.az: k => v if v != null}
+  description = "Outputs for the Azure resources created by this module."
+}
 
 {{ end }}

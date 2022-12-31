@@ -27,3 +27,17 @@ variable "unique-include-numbers" {
   type        = bool
   default     = true
 }
+
+variable "enabled" {
+  description = "Enabled for set of resources defined here."
+  type        = map(any)
+  default = {
+    "resource_group" = true
+  }
+}
+
+variable "enabled_all" {
+  description = "Enabled for all resources."
+  type        = bool
+  default     = true
+}

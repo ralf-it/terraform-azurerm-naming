@@ -2,3 +2,5 @@
 *.tfstate*
 terraform-azurerm-naming
 .terraform.lock.hcl
+.env.forces
+.make/.datetime

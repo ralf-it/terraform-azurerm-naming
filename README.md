@@ -10,8 +10,13 @@ example for `azurerm_resource_group` you can use :
 
 ```tf
 module "naming" {
-  source  = "Azure/naming/azurerm"
+  version = ">=0.4.0, < 1.0.0"
+  source = "https://github.com/ralf-it/terraform-azurerm-naming.git?ref=1.0.0"
+
   suffix = [ "test" ]
+  enabled = {
+    "resource_group" = true
+  }
 }
 resource "azurerm_resource_group" "example" {
   name     = module.naming.resource_group.name
@@ -25,6 +30,9 @@ if you want this to be unique for this module and not shared with other instance
 module "naming" {
   source  = "Azure/naming/azurerm"
   suffix = [ "test" ]
+  enabled = {
+    "resource_group" = true
+  }
 }
 resource "azurerm_resource_group" "example" {
   name     = module.naming.resource_group.name_unique
@@ -372,16 +380,3 @@ No modules.
 | <a name="static_web_app"></a> [static\_web\_app](#output\_static_\_web\_app) | Static Web App |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
-# Contributing Guidelines
-
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
-
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.

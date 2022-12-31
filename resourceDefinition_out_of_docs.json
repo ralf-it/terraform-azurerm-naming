@@ -209,6 +209,17 @@
     "dashes": true
   },
   {
+    "name" : "management_lock",
+    "length": {
+      "min": 1,
+      "max": 260
+    },
+    "regex": "^(?=.{1,260}$)[a-zA-Z0-9][a-zA-Z0-9-._]+[a-zA-Z0-9_]$",
+    "scope" : "parent",
+    "slug": "mgmlck",
+    "dashes": true
+  },
+  {
     "name": "private_dns_a_record",
     "length": {
       "min": 1,

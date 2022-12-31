@@ -1,5 +1,5 @@
 {{- define "resources" -}}
-    {{- .Name }} = {
+    {{- .Name }} = var.enabled_all || lookup(var.enabled, "{{- .Name -}}", false) ? {
       name        = substr(join("{{if .Dashes}}-{{ end }}", compact([local.prefix{{if not .Dashes}}_safe{{ end }}, "{{ .Slug }}", local.suffix{{if not .Dashes}}_safe{{ end }}])), 0, {{ .Length.Max }})
       name_unique = substr(join("{{if .Dashes}}-{{ end }}", compact([local.prefix{{if not .Dashes}}_safe{{ end }}, "{{ .Slug }}", local.suffix_unique{{if not .Dashes}}_safe{{ end }}])), 0, {{ .Length.Max }})
       dashes      = {{ .Dashes }}
@@ -8,20 +8,22 @@
       max_length  = {{ .Length.Max }}
       scope       = "{{ .Scope }}"
       regex       = "{{ cleanRegex .Regex }}"
-    }
+      description = "{{ replace .Name "_" " " | title }}"
+    } : null
 {{- end -}}
 
 {{- define "validation" -}}
-    {{- .Name }} = {
+    {{- .Name }} = lookup(var.enabled, "{{- .Name -}}", false) ? {
       valid_name        = length(regexall(local.az.{{- .Name }}.regex, local.az.{{- .Name }}.name)) > 0 && length(local.az.{{- .Name }}.name) > local.az.{{- .Name }}.min_length
       valid_name_unique = length(regexall(local.az.{{- .Name }}.regex, local.az.{{- .Name }}.name_unique)) > 0
-    }
+    } : null
 {{- end -}}
 
 
 
 {{- define "main" -}}
 terraform {
+  required_version = ">=1.6.5, < 2.0.0"
   required_providers {
     random = {
       source  = "hashicorp/random"
